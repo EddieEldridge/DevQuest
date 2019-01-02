@@ -29,6 +29,7 @@ public class GameWindow
 		view.setMinimumSize(d);
 		view.setMaximumSize(d);
 
+		// Creates and sets up the main window that the game is containted inside
 		JFrame f = new JFrame("DevQuest");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().setLayout(new FlowLayout());
