@@ -1,14 +1,21 @@
 package ie.gmit.sw;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Arrays;
+
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-public class GameSetup
+public class SetupGameOptions
 {
 	// Instance variables
 	String playerName;
 	String showPlayerName;
 	String[] difficultyChoices = { "Easy", "Medium", "Hard" };
-
+	
+	
+	
 	// Prompt the user for their name
 	public void getPlayerName()
 	{
@@ -25,4 +32,6 @@ public class GameSetup
 				JOptionPane.QUESTION_MESSAGE, null, difficultyChoices, // Array of choices
 				difficultyChoices[1]); // Initial choice
 	}
+	
+	
 }

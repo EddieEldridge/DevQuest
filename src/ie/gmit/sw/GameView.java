@@ -15,8 +15,11 @@ import java.util.*;
  * another.
  * 
  */
-public class GameView extends JPanel implements ActionListener, KeyListener
+public class GameView extends JPanel implements ActionListener
 {
+	// Instance variables
+	SetupGameResources resourceSetup = new SetupGameResources();
+	
 	private static final long serialVersionUID = 777L;
 	private static final int DEFAULT_IMAGE_INDEX = 0;
 
@@ -30,10 +33,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 	private int[][] matrix;
 	private int[][] things;
 
-	private BufferedImage[] tiles; // Note that all images, including sprites, have dimensions of 128 x 64. This
-									// make painting much simpler.
-	private BufferedImage[] objects; // Taller sprites can be created, by using two tiles (head torso, lower body and
-										// legs) and improve animations
+	
 	private Color[] cartesian = { Color.GREEN, Color.GRAY, Color.DARK_GRAY, Color.ORANGE, Color.CYAN, Color.YELLOW,
 			Color.PINK, Color.BLACK }; // This is a 2D representation
 
@@ -42,7 +42,8 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 
 	public GameView(int[][] matrix, int[][] things) throws Exception
 	{
-		init();
+		resourceSetup.loadFromResources();
+		
 		this.matrix = matrix;
 		this.things = things;
 
@@ -50,28 +51,6 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 		setDoubleBuffered(true); // Each image is buffered twice to avoid tearing / stutter
 		timer = new Timer(100, this); // calls the actionPerformed() method every 100ms
 		timer.start(); // Start the timer
-	}
-
-	private void init() throws Exception
-	{
-		tiles = loadImages("./resources/images/ground", tiles);
-		objects = loadImages("./resources/images/objects", objects);
-		player = new Sprite("Player 1", new Point(0, 0), loadImages("./resources/images/sprites/default", null));
-	}
-
-	// This method breaks the SRP
-	private BufferedImage[] loadImages(String directory, BufferedImage[] img) throws Exception
-	{
-		File dir = new File(directory);
-		File[] files = dir.listFiles();
-		Arrays.sort(files, (s, t) -> s.getName().compareTo(t.getName()));
-
-		img = new BufferedImage[files.length];
-		for (int i = 0; i < files.length; i++)
-		{
-			img[i] = ImageIO.read(files[i]);
-		}
-		return img;
 	}
 
 	public void toggleView()
@@ -98,7 +77,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 			{
 				imageIndex = matrix[row][col];
 
-				if (imageIndex >= 0 && imageIndex < tiles.length)
+				if (imageIndex >= 0 && imageIndex < resourceSetup.getTiles().length)
 				{
 					// Paint the ground tiles
 					if (isIsometric)
@@ -106,10 +85,10 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 						x1 = getIsoX(col, row);
 						y1 = getIsoY(col, row);
 
-						g2.drawImage(tiles[DEFAULT_IMAGE_INDEX], x1, y1, null);
+						g2.drawImage(resourceSetup.getTiles()[DEFAULT_IMAGE_INDEX], x1, y1, null);
 						if (imageIndex > DEFAULT_IMAGE_INDEX)
 						{
-							g2.drawImage(tiles[imageIndex], x1, y1, null);
+							g2.drawImage(resourceSetup.getTiles()[imageIndex], x1, y1, null);
 						}
 					} else
 					{
@@ -126,7 +105,6 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 						g2.fillRect(x1, y1, TILE_WIDTH, TILE_WIDTH);
 					}
 					// Paint the object or things on the ground
-
 					imageIndex = things[row][col];
 					g2.drawImage(objects[imageIndex], x1, y1, null);
 				}

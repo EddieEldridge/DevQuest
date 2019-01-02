@@ -11,7 +11,7 @@ public class Runner
 	public static void main(String[] args) throws Exception
 	{
 		// Instance variables
-		GameSetup gameSetup = new GameSetup();
+		SetupGameOptions gameSetup = new SetupGameOptions();
 		
 		// Setup the game
 		gameSetup.getPlayerName();
