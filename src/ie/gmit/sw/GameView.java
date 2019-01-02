@@ -20,23 +20,23 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 	// Instance variables
 	SetupGameResources resourceSetup = new SetupGameResources();
 	SpecialEvents specialEvents = new SpecialEvents();
+	CoordinateManager coordinateManager = new CoordinateManager();
+	
+	
 	private Sprite player;
 	private BufferedImage[] tiles;
 	private BufferedImage[] objects;
-	
+
 	private static final long serialVersionUID = 777L;
 	private static final int DEFAULT_IMAGE_INDEX = 0;
-
-	// Encapsulate the things that vary...
 	public static final int DEFAULT_VIEW_SIZE = 1280;
-	private static final int TILE_WIDTH = 128;
-	private static final int TILE_HEIGHT = 64;
+	static final int TILE_WIDTH = 128;
+	static final int TILE_HEIGHT = 64;
 
 	// Do we really need two models like this?
 	private int[][] matrix;
 	private int[][] things;
 
-	
 	private Color[] cartesian = { Color.GREEN, Color.GRAY, Color.DARK_GRAY, Color.ORANGE, Color.CYAN, Color.YELLOW,
 			Color.PINK, Color.BLACK }; // This is a 2D representation
 
@@ -48,11 +48,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 		tiles = resourceSetup.loadTiles();
 		objects = resourceSetup.loadObjects();
 		player = resourceSetup.loadPlayer();
-		
-		System.out.println(player);
-		System.out.println(tiles);
-		System.out.println(objects);
-		
+
 		this.matrix = matrix;
 		this.things = things;
 
@@ -69,96 +65,91 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 	}
 
 	public void actionPerformed(ActionEvent e)
-	{ // This is called each time the timer reaches zero
+	{ 
+		// This is called each time the timer reaches zero
 		this.repaint();
 	}
 
 	public void paintComponent(Graphics g)
-	{ // This method needs to execute quickly...
+	{ 
+		// This method needs to execute quickly...
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		int imageIndex = -1, x1 = 0, y1 = 0;
 		Point point;
-		
-		for (int row = 0; row < matrix.length; row++) {
-			for (int col = 0; col < matrix[row].length; col++) {
+
+		for (int row = 0; row < matrix.length; row++)
+		{
+			for (int col = 0; col < matrix[row].length; col++)
+			{
 				imageIndex = matrix[row][col];
-				
-				if (imageIndex >= 0 && imageIndex < tiles.length) {
-					//Paint the ground tiles
-					if (isIsometric) {
-						x1 = getIsoX(col, row);
-						y1 = getIsoY(col, row);
-						
+
+				if (imageIndex >= 0 && imageIndex < tiles.length)
+				{
+					// Paint the ground tiles
+					if (isIsometric)
+					{
+						x1 = coordinateManager.getIsoX(col, row);
+						y1 = coordinateManager.getIsoY(col, row);
+
 						g2.drawImage(tiles[DEFAULT_IMAGE_INDEX], x1, y1, null);
-						if (imageIndex > DEFAULT_IMAGE_INDEX) {
+						
+						if (imageIndex > DEFAULT_IMAGE_INDEX)
+						{
 							g2.drawImage(tiles[imageIndex], x1, y1, null);
 						}
-					} else {
+					}
+					else
+					{
 						x1 = col * TILE_WIDTH;
 						y1 = row * TILE_HEIGHT;
-	        			if (imageIndex < cartesian.length) {
-	        				g2.setColor(cartesian[imageIndex]);
-	        			}else {
-	        				g2.setColor(Color.WHITE);
-	        			}
-						
-	        			g2.fillRect(x1, y1, TILE_WIDTH, TILE_WIDTH);
+						if (imageIndex < cartesian.length)
+						{
+							g2.setColor(cartesian[imageIndex]);
+						}
+						else
+						{
+							g2.setColor(Color.WHITE);
+						}
+
+						g2.fillRect(x1, y1, TILE_WIDTH, TILE_WIDTH);
 					}
-					//Paint the object or things on the ground
-					
-					
+
+					// Paint the object or things on the ground
 					imageIndex = things[row][col];
 					g2.drawImage(objects[imageIndex], x1, y1, null);
 				}
 			}
 		}
-		
-		//Paint the player on  the ground
-		point = getIso(player.getPosition().getX(), player.getPosition().getY());
+
+		// Paint the player on the ground
+		point = coordinateManager.getIso(player.getPosition().getX(), player.getPosition().getY());
 		g2.drawImage(player.getImage(), point.getX(), point.getY(), null);
 	}
 
-	// This method breaks the SRP
-	private int getIsoX(int x, int y)
+	
+	public void keyPressed(KeyEvent e)
 	{
-		int rshift = (DEFAULT_VIEW_SIZE / 2) - (TILE_WIDTH / 2) + (x - y); // Pan camera to the right
-		return (x - y) * (TILE_WIDTH / 2) + rshift;
-	}
-
-	// This method breaks the SRP
-	private int getIsoY(int x, int y)
-	{
-		return (x + y) * (TILE_HEIGHT / 2);
-	}
-
-	// This method breaks the SRP
-	private Point getIso(int x, int y)
-	{
-		return new Point(getIsoX(x, y), getIsoY(x, y)); // Could be more efficient...
-	}
-
-	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
 		{
 			player.setDirection(Direction.RIGHT);
 		}
-		else if (e.getKeyCode() == KeyEvent.VK_LEFT) 
+		else if (e.getKeyCode() == KeyEvent.VK_LEFT)
 		{
 			player.setDirection(Direction.LEFT);
-		} 
+		}
 		else if (e.getKeyCode() == KeyEvent.VK_UP)
 		{
 			player.setDirection(Direction.UP);
-		} 
-		else if (e.getKeyCode() == KeyEvent.VK_DOWN) 
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_DOWN)
 		{
 			player.setDirection(Direction.DOWN);
-		} 
-		else if (e.getKeyCode() == KeyEvent.VK_Z) 
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_Z)
 		{
 			toggleView();
-		} 
+		}
 		else if (e.getKeyCode() == KeyEvent.VK_X)
 		{
 			player.move();
@@ -167,7 +158,8 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 		{
 			specialEvents.showHelp();
 		}
-		else {
+		else
+		{
 			return;
 		}
 	}

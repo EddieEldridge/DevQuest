@@ -1,8 +1,14 @@
 package ie.gmit.sw;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -14,8 +20,10 @@ public class SetupGameOptions
 	private String showPlayerName;
 	private String playerName;
 	private String playerDifficulty;
-	private String[] difficultyChoices = {"Easy", "Medium", "Hard"};
-	
+	private String questionsFile = "resources/questions.txt";
+	private String[] difficultyChoices = { "Easy", "Medium", "Hard" };
+	public List<String> questionsFromFile = new ArrayList<String>();
+
 	// Prompt the user for their name
 	public void setupPlayerName()
 	{
@@ -35,6 +43,19 @@ public class SetupGameOptions
 		System.out.println(playerDifficulty);
 		player.setPlayerDifficulty(playerDifficulty);
 	}
-	
-	
+
+	public void loadQuestionsFromFile() throws IOException
+	{
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(questionsFile));
+		String currentLine = "";
+		
+		while ((bufferedReader.readLine()) != null)
+		{
+			questionsFromFile.add(currentLine);
+		}
+		
+		System.out.println(questionsFromFile);
+		bufferedReader.close();
+	}
+
 }
