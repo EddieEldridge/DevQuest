@@ -47,9 +47,9 @@ public class SetupGameOptions
 	public void loadQuestionsFromFile() throws IOException
 	{
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(questionsFile));
-		String currentLine = "";
+		String currentLine;
 		
-		while ((bufferedReader.readLine()) != null)
+		while ((currentLine = bufferedReader.readLine()) != null)
 		{
 			questionsFromFile.add(currentLine);
 		}
