@@ -11,16 +11,22 @@ public class Runner
 	public static void main(String[] args) throws Exception
 	{
 		// Instance variables
-		Scanner scanner = new Scanner(System.in);
 		String playerName;
-		
+		String showPlayerName;
+		String[] difficultyChoices = { "Easy", "Medium", "Hard" };
+
 		// Prompt the user for their name
 		JOptionPane playerNameWindow = new JOptionPane("Player name");
-		playerName = JOptionPane.showInputDialog("First Name");
-		
-		JOptionPane.showMessageDialog(null, playerName);
-	
-		
+		playerName = JOptionPane.showInputDialog("Player Name");
+		showPlayerName = "Good luck " + playerName + " you'll need it!";
+		JOptionPane.showMessageDialog(null, showPlayerName);
+
+		// Prompt user for difficulty
+		String input = (String) JOptionPane.showInputDialog(null, "Choose now...", "Choose your difficulty!",
+				JOptionPane.QUESTION_MESSAGE, null, 
+				difficultyChoices, // Array of choices
+				difficultyChoices[1]); // Initial choice
+
 		// Can read in necessary information here and process it before going any
 		// further...
 
