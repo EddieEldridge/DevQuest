@@ -19,6 +19,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 {
 	// Instance variables
 	SetupGameResources resourceSetup = new SetupGameResources();
+	SpecialEvents specialEvents = new SpecialEvents();
 	private Sprite player;
 	private BufferedImage[] tiles;
 	private BufferedImage[] objects;
@@ -138,19 +139,35 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+		{
 			player.setDirection(Direction.RIGHT);
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_LEFT) 
+		{
 			player.setDirection(Direction.LEFT);
-		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+		} 
+		else if (e.getKeyCode() == KeyEvent.VK_UP)
+		{
 			player.setDirection(Direction.UP);
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+		} 
+		else if (e.getKeyCode() == KeyEvent.VK_DOWN) 
+		{
 			player.setDirection(Direction.DOWN);
-		} else if (e.getKeyCode() == KeyEvent.VK_Z) {
+		} 
+		else if (e.getKeyCode() == KeyEvent.VK_Z) 
+		{
 			toggleView();
-		} else if (e.getKeyCode() == KeyEvent.VK_X) {
+		} 
+		else if (e.getKeyCode() == KeyEvent.VK_X)
+		{
 			player.move();
-		} else {
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_H)
+		{
+			specialEvents.showHelp();
+		}
+		else {
 			return;
 		}
 	}

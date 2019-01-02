@@ -10,27 +10,30 @@ import javax.swing.JOptionPane;
 public class SetupGameOptions
 {
 	// Instance variables
-	String playerName;
-	String showPlayerName;
-	String[] difficultyChoices = { "Easy", "Medium", "Hard" };
-	
-	
+	Player player = new Player();
+	private String showPlayerName;
+	private String playerName;
+	private String playerDifficulty;
+	private String[] difficultyChoices = {"Easy", "Medium", "Hard"};
 	
 	// Prompt the user for their name
-	public void getPlayerName()
+	public void setupPlayerName()
 	{
 		JOptionPane playerNameWindow = new JOptionPane("Player name");
 		playerName = JOptionPane.showInputDialog("Player Name");
-		showPlayerName = "Good luck " + playerName + " you'll need it!";
+		player.setPlayerName(playerName);
+		showPlayerName = "Good luck " + player.getPlayerName() + " you'll need it!";
 		JOptionPane.showMessageDialog(null, showPlayerName);
 	}
 
 	// Prompt user for difficulty
-	public void getPlayerDifficulty()
+	public void setupPlayerDifficulty()
 	{
-		String input = (String) JOptionPane.showInputDialog(null, "Choose now...", "Choose your difficulty!",
+		playerDifficulty = (String) JOptionPane.showInputDialog(null, "Choose now...", "Choose your difficulty!",
 				JOptionPane.QUESTION_MESSAGE, null, difficultyChoices, // Array of choices
 				difficultyChoices[1]); // Initial choice
+		System.out.println(playerDifficulty);
+		player.setPlayerDifficulty(playerDifficulty);
 	}
 	
 	
