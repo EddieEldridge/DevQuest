@@ -15,10 +15,13 @@ import java.util.*;
  * another.
  * 
  */
-public class GameView extends JPanel implements ActionListener
+public class GameView extends JPanel implements ActionListener, KeyListener
 {
 	// Instance variables
 	SetupGameResources resourceSetup = new SetupGameResources();
+	private Sprite player;
+	private BufferedImage[] tiles;
+	private BufferedImage[] objects;
 	
 	private static final long serialVersionUID = 777L;
 	private static final int DEFAULT_IMAGE_INDEX = 0;
@@ -27,7 +30,6 @@ public class GameView extends JPanel implements ActionListener
 	public static final int DEFAULT_VIEW_SIZE = 1280;
 	private static final int TILE_WIDTH = 128;
 	private static final int TILE_HEIGHT = 64;
-	private Sprite player;
 
 	// Do we really need two models like this?
 	private int[][] matrix;
@@ -42,7 +44,13 @@ public class GameView extends JPanel implements ActionListener
 
 	public GameView(int[][] matrix, int[][] things) throws Exception
 	{
-		resourceSetup.loadFromResources();
+		tiles = resourceSetup.loadTiles();
+		objects = resourceSetup.loadObjects();
+		player = resourceSetup.loadPlayer();
+		
+		System.out.println(player);
+		System.out.println(tiles);
+		System.out.println(objects);
 		
 		this.matrix = matrix;
 		this.things = things;
@@ -70,48 +78,42 @@ public class GameView extends JPanel implements ActionListener
 		Graphics2D g2 = (Graphics2D) g;
 		int imageIndex = -1, x1 = 0, y1 = 0;
 		Point point;
-
-		for (int row = 0; row < matrix.length; row++)
-		{
-			for (int col = 0; col < matrix[row].length; col++)
-			{
+		
+		for (int row = 0; row < matrix.length; row++) {
+			for (int col = 0; col < matrix[row].length; col++) {
 				imageIndex = matrix[row][col];
-
-				if (imageIndex >= 0 && imageIndex < resourceSetup.getTiles().length)
-				{
-					// Paint the ground tiles
-					if (isIsometric)
-					{
+				
+				if (imageIndex >= 0 && imageIndex < tiles.length) {
+					//Paint the ground tiles
+					if (isIsometric) {
 						x1 = getIsoX(col, row);
 						y1 = getIsoY(col, row);
-
-						g2.drawImage(resourceSetup.getTiles()[DEFAULT_IMAGE_INDEX], x1, y1, null);
-						if (imageIndex > DEFAULT_IMAGE_INDEX)
-						{
-							g2.drawImage(resourceSetup.getTiles()[imageIndex], x1, y1, null);
+						
+						g2.drawImage(tiles[DEFAULT_IMAGE_INDEX], x1, y1, null);
+						if (imageIndex > DEFAULT_IMAGE_INDEX) {
+							g2.drawImage(tiles[imageIndex], x1, y1, null);
 						}
-					} else
-					{
+					} else {
 						x1 = col * TILE_WIDTH;
 						y1 = row * TILE_HEIGHT;
-						if (imageIndex < cartesian.length)
-						{
-							g2.setColor(cartesian[imageIndex]);
-						} else
-						{
-							g2.setColor(Color.WHITE);
-						}
-
-						g2.fillRect(x1, y1, TILE_WIDTH, TILE_WIDTH);
+	        			if (imageIndex < cartesian.length) {
+	        				g2.setColor(cartesian[imageIndex]);
+	        			}else {
+	        				g2.setColor(Color.WHITE);
+	        			}
+						
+	        			g2.fillRect(x1, y1, TILE_WIDTH, TILE_WIDTH);
 					}
-					// Paint the object or things on the ground
+					//Paint the object or things on the ground
+					
+					
 					imageIndex = things[row][col];
 					g2.drawImage(objects[imageIndex], x1, y1, null);
 				}
 			}
 		}
-
-		// Paint the player on the ground
+		
+		//Paint the player on  the ground
 		point = getIso(player.getPosition().getX(), player.getPosition().getY());
 		g2.drawImage(player.getImage(), point.getX(), point.getY(), null);
 	}
@@ -135,28 +137,20 @@ public class GameView extends JPanel implements ActionListener
 		return new Point(getIsoX(x, y), getIsoY(x, y)); // Could be more efficient...
 	}
 
-	public void keyPressed(KeyEvent e)
-	{
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-		{
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			player.setDirection(Direction.RIGHT);
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT)
-		{
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			player.setDirection(Direction.LEFT);
-		} else if (e.getKeyCode() == KeyEvent.VK_UP)
-		{
+		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 			player.setDirection(Direction.UP);
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN)
-		{
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			player.setDirection(Direction.DOWN);
-		} else if (e.getKeyCode() == KeyEvent.VK_Z)
-		{
+		} else if (e.getKeyCode() == KeyEvent.VK_Z) {
 			toggleView();
-		} else if (e.getKeyCode() == KeyEvent.VK_X)
-		{
+		} else if (e.getKeyCode() == KeyEvent.VK_X) {
 			player.move();
-		} else
-		{
+		} else {
 			return;
 		}
 	}

@@ -8,12 +8,12 @@ import javax.imageio.ImageIO;
 
 public class SetupGameResources
 {
-	private static Sprite player;
+	private Sprite player;
 	private BufferedImage[] tiles;
 	private BufferedImage[] objects;
 
 	// Load the images from the resource folder to be used as tiles
-	public static BufferedImage[] loadImages(String directory, BufferedImage[] img) throws Exception
+	private BufferedImage[] loadImages(String directory, BufferedImage[] img) throws Exception
 	{
 		File dir = new File(directory);
 		File[] files = dir.listFiles();
@@ -27,21 +27,26 @@ public class SetupGameResources
 		return img;
 	}
 
-	public void loadFromResources() throws Exception
+	public Sprite loadPlayer() throws Exception
 	{
-		objects = loadImages("./resources/images/objects", objects);
 		player = new Sprite("Player 1", new Point(0, 0), loadImages("./resources/images/sprites/default", null));
+		return player;
 	}
 	
-	public void setTiles(BufferedImage[] tiles) throws Exception
+	public BufferedImage[] loadTiles() throws Exception
 	{
 		tiles = loadImages("./resources/images/ground", tiles);
-	}
-	
-	public BufferedImage[] getTiles()
-	{
 		return tiles;
 	}
+	
+	public BufferedImage[] loadObjects() throws Exception
+	{
+		objects = loadImages("./resources/images/objects", objects);
+		return objects;
+	}
+	
+	
+	
 
 
 }

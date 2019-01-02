@@ -14,8 +14,8 @@ public class Runner
 		SetupGameOptions gameSetup = new SetupGameOptions();
 		
 		// Setup the game
-		gameSetup.getPlayerName();
-		gameSetup.getPlayerDifficulty();
+		//gameSetup.getPlayerName();
+		//gameSetup.getPlayerDifficulty();
 
 		// Never run a GUI in the same thread as the main method... This is
 		// asynchronous:
