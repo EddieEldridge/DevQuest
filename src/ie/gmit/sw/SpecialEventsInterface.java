@@ -6,4 +6,5 @@ public interface SpecialEventsInterface
 {
 	public void showHelp();
 	public Boolean generateQuestion() throws IOException;
+	public void generateFanfare();
 }

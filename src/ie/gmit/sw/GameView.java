@@ -18,41 +18,26 @@ import java.util.*;
 public class GameView extends JPanel implements ActionListener, KeyListener
 {
 	// Instance variables
-	SetupGameResources resourceSetup = new SetupGameResources();
 	SpecialEventsInterface specialEvents = new SpecialEventsImpl();
-	CoordinateManager coordinateManager = new CoordinateManager();
-	private Point position;
+	PaintableInterface paintInterface = new PaintableImpl();
 	
+	// 
+	private Point position;
 	private Player playerStats;
 	private Sprite playerSprite;
-	private BufferedImage[] tiles;
-	private BufferedImage[] objects;
+	
+	private Boolean isCorrect = true;
 
 	private static final long serialVersionUID = 777L;
-	private static final int DEFAULT_IMAGE_INDEX = 0;
 	public static final int DEFAULT_VIEW_SIZE = 1280;
 	static final int TILE_WIDTH = 128;
 	static final int TILE_HEIGHT = 64;
 
-	// Do we really need two models like this?
-	private int[][] matrix;
-	private int[][] things;
-
-	private Color[] cartesian = { Color.GREEN, Color.GRAY, Color.DARK_GRAY, Color.ORANGE, Color.CYAN, Color.YELLOW,
-			Color.PINK, Color.BLACK }; // This is a 2D representation
-
+	
 	private Timer timer; // Controls the repaint interval.
-	private boolean isIsometric = true; // Toggle between 2D and Isometric (Z key)
 
-	public GameView(int[][] matrix, int[][] things) throws Exception
-	{
-		tiles = resourceSetup.loadTiles();
-		objects = resourceSetup.loadObjects();
-		playerSprite = resourceSetup.loadPlayer();
-
-		this.matrix = matrix;
-		this.things = things;
-
+	public GameView() throws Exception
+	{	
 		setBackground(Color.WHITE);
 		setDoubleBuffered(true); // Each image is buffered twice to avoid tearing / stutter
 		timer = new Timer(100, this); // calls the actionPerformed() method every 100ms
@@ -61,7 +46,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 
 	public void toggleView()
 	{
-		isIsometric = !isIsometric;
+		PaintableImpl.isIsometric = !PaintableImpl.isIsometric;
 		this.repaint();
 	}
 
@@ -70,85 +55,34 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 		// This is called each time the timer reaches zero
 		this.repaint();
 	}
-
+	
 	public void paintComponent(Graphics g)
-	{ 
-		// This method needs to execute quickly...
+	{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		int imageIndex = -1, x1 = 0, y1 = 0;
-		Point point;
-
-		for (int row = 0; row < matrix.length; row++)
-		{
-			for (int col = 0; col < matrix[row].length; col++)
-			{
-				imageIndex = matrix[row][col];
-
-				if (imageIndex >= 0 && imageIndex < tiles.length)
-				{
-					// Paint the ground tiles
-					if (isIsometric)
-					{
-						x1 = coordinateManager.getIsoX(col, row);
-						y1 = coordinateManager.getIsoY(col, row);
-
-						g2.drawImage(tiles[DEFAULT_IMAGE_INDEX], x1, y1, null);
-						
-						if (imageIndex > DEFAULT_IMAGE_INDEX)
-						{
-							g2.drawImage(tiles[imageIndex], x1, y1, null);
-						}
-					}
-					else
-					{
-						x1 = col * TILE_WIDTH;
-						y1 = row * TILE_HEIGHT;
-						if (imageIndex < cartesian.length)
-						{
-							g2.setColor(cartesian[imageIndex]);
-						}
-						else
-						{
-							g2.setColor(Color.WHITE);
-						}
-
-						g2.fillRect(x1, y1, TILE_WIDTH, TILE_WIDTH);
-					}
-
-					// Paint the object or things on the ground
-					imageIndex = things[row][col];
-					g2.drawImage(objects[imageIndex], x1, y1, null);
-				}
-			}
-		}
-
-		// Paint the player on the ground
-		point = coordinateManager.getIso(playerSprite.getPosition().getX(), playerSprite.getPosition().getY());
-		g2.drawImage(playerSprite.getImage(), point.getX(), point.getY(), null);
 		
-		
-		
+		paintInterface.paintComponent(g);
+		paintInterface.paintObjects(g);
+		paintInterface.paintPlayer(g2);
 	}
-
 	
 	public void keyPressed(KeyEvent e)
 	{
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
 		{
-			playerSprite.setDirection(Direction.RIGHT);
+			PaintableImpl.playerSprite.setDirection(Direction.RIGHT);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_LEFT)
 		{
-			playerSprite.setDirection(Direction.LEFT);
+			PaintableImpl.playerSprite.setDirection(Direction.LEFT);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_UP)
 		{
-			playerSprite.setDirection(Direction.UP);
+			PaintableImpl.playerSprite.setDirection(Direction.UP);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_DOWN)
 		{
-			playerSprite.setDirection(Direction.DOWN);
+			PaintableImpl.playerSprite.setDirection(Direction.DOWN);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_Z)
 		{
@@ -156,28 +90,43 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_X)
 		{
-			playerSprite.move();
+			PaintableImpl.playerSprite.move();
 		}
-		else if (e.getKeyCode() == KeyEvent.VK_H)
+		else if (e.getKeyCode() == KeyEvent.VK_G)
 		{
 			try
 			{
 				// If the player answers the question correctly then increase their score by 1
-				if(specialEvents.generateQuestion() == true)
+				while(isCorrect == true)
 				{
-					playerStats.setQuestionsAnswered(playerStats.getQuestionsAnswered()+1);
-					JOptionPane.showMessageDialog(null, "Correct!");
-					specialEvents.generateQuestion();
+					isCorrect = specialEvents.generateQuestion();	
+					
+					if(specialEvents.generateQuestion()==true)
+					{
+						JOptionPane.showMessageDialog(null, "Correct!");
+						playerStats.setQuestionsAnswered(playerStats.getQuestionsAnswered()+1);
+					}
 				}
-				else if(specialEvents.generateQuestion() == false)
+				
+				if(isCorrect == false)
 				{
+					// If the player get's the question wrong, then set their score to 0
 					JOptionPane.showMessageDialog(null, "Hard luck, try again!");
+					playerStats.setQuestionsAnswered(0);				
 				}
-
+				else if(playerStats.getQuestionsAnswered()>=5)
+				{
+					specialEvents.generateFanfare();
+				}
+				
 			} catch (IOException e1)
 			{
 				System.out.println("Error setting player score: " + e1);
 			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_H)
+		{
+			specialEvents.showHelp();
 		}
 		else
 		{

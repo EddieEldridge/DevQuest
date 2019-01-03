@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
-public class SetupGameResources
+public class ResourceSetupImpl implements ResourceSetupInterface
 {
 	private Sprite player;
 	private BufferedImage[] tiles;
@@ -27,6 +27,7 @@ public class SetupGameResources
 		return img;
 	}
 
+
 	public Sprite loadPlayer() throws Exception
 	{
 		player = new Sprite("Player 1", new Point(0, 0), loadImages("./resources/images/sprites/default", null));
@@ -44,9 +45,5 @@ public class SetupGameResources
 		objects = loadImages("./resources/images/objects", objects);
 		return objects;
 	}
-	
-	
-	
-
 
 }

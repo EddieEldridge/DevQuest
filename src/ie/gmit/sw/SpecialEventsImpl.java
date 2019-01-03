@@ -27,17 +27,18 @@ public class SpecialEventsImpl implements SpecialEventsInterface
 	   
 	   // Seed a random number for selecting question/answer
 	   int seed = (int)(Math.random() * 9 + 1);	   
-	   System.out.println(seed);
 	   
 	   // Choose a random question from the list of questions
 	   questionToAsk = questionsFromFile.get(seed);
 	   actualAnswer = answersFromFile.get(seed);
 	   
+	   System.out.println("Question to Ask: " + questionToAsk);
+	   System.out.println("Correct Answer: " +actualAnswer);
+	   
 	   // Prompt the player for their answer
 	   playerAnswer = JOptionPane.showInputDialog(questionToAsk);
 	   
-	   System.out.println("Question to Ask: " + questionToAsk);
-	   System.out.println("Correct Answer: " +actualAnswer);
+	   
 	   System.out.println("Player Answer: " +playerAnswer);
 
 	   // Compare the answer given to the actual answer
@@ -50,6 +51,9 @@ public class SpecialEventsImpl implements SpecialEventsInterface
 		   return false;
 	   }
 	}
-
 	
+	public void generateFanfare()
+	{
+		JOptionPane.showMessageDialog(null, "YOU HAVE WON!");
+	}	
 }

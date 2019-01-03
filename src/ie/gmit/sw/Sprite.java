@@ -103,32 +103,32 @@ public class Sprite
 			if (position.getY() + 1 < 10)
 			{
 				position.setY(position.getY() + 1);
-				break;
 			}
+			break;
 
 			// DOWN
 		case 2:
 			if (position.getX() - 1 > -1)
 			{
 				position.setX(position.getX() - 1);
-				break;
 			}
+			break;
 
 			// LEFT
 		case 3:
 			if (position.getX() + 1 < 10)
 			{
 				position.setX(position.getX() + 1);
-				break;
 			}
+			break;
 
 			// RIGHT
 		case 4:
-			if (position.getY() - 1 > 1)
+			if (position.getY() - 1 > -1)
 			{
 				position.setY(position.getY() - 1);
-				break;
 			}
+			break;
 
 		}
 	}

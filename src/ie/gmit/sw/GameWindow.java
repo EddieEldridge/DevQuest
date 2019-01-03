@@ -5,25 +5,12 @@ import javax.swing.*;
 
 public class GameWindow
 {
-	/*
-	 * This matrix represents the isometric game model, with each number mapping to
-	 * an image in the images/ground/ directory.
-	 */
-	private int[][] model = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
-
-	// This matrix is a representation of where objects (things) in the game are
-	// placed
-	private int[][] objects = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  },
-			{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  }, {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  }, {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  },
-			{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
-
+	
 	public GameWindow() throws Exception
 	{
-		GameView view = new GameView(model, objects);
+		//PaintableImpl view = new PaintableImpl(model, objects);
+		GameView view = new GameView();
+		
 		Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE / 2);
 		view.setPreferredSize(d);
 		view.setMinimumSize(d);

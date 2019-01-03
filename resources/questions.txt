@@ -1,6 +1,5 @@
-This is question 1!
-This is question 2!
-This is question 3!
+What language is this program written in?
+What programming language is named after type of snake?
 This is question 4!
 This is question 5!
 This is question 6!
