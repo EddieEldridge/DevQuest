@@ -13,7 +13,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-public class SetupGameOptions
+public class GameSetupImpl implements GameSetupInterface
 {
 	// Instance variables
 	Player player = new Player();
@@ -25,30 +25,32 @@ public class SetupGameOptions
 	private String[] difficultyChoices = { "Easy", "Medium", "Hard" };
 
 	// Prompt the user for their name
-	public void setupPlayerName()
+	public String setupPlayerName()
 	{
 		playerName = JOptionPane.showInputDialog("Player Name");
 		player.setPlayerName(playerName);
 		showPlayerName = "Good luck " + player.getPlayerName() + " you'll need it!";
 		JOptionPane.showMessageDialog(null, showPlayerName);
+		return playerName;
 	}
 
 	// Prompt user for difficulty
-	public void setupPlayerDifficulty()
+	public String setupPlayerDifficulty()
 	{
 		playerDifficulty = (String) JOptionPane.showInputDialog(null, "Choose now...", "Choose your difficulty!",
 				JOptionPane.QUESTION_MESSAGE, null, difficultyChoices, // Array of choices
 				difficultyChoices[1]); // Initial choice
 		System.out.println(playerDifficulty);
 		player.setPlayerDifficulty(playerDifficulty);
+		return playerDifficulty;
 	}
 
-	public List<String> loadQuestionsFromFile() throws IOException
+	public ArrayList<String> loadQuestionsFromFile() throws IOException
 	{
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(questionsFile));
 		String currentLine;
 		
-		List<String> questionsFromFile = new ArrayList<String>();
+		ArrayList<String> questionsFromFile = new ArrayList<String>();
 
 		while ((currentLine = bufferedReader.readLine()) != null)
 		{
@@ -60,12 +62,12 @@ public class SetupGameOptions
 		return questionsFromFile;
 	}
 	
-	public List<String> loadAnswersFromFile() throws IOException
+	public ArrayList<String> loadAnswersFromFile() throws IOException
 	{
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(answersFile));
 		String currentLine;
 		
-		List<String> answersFromFile = new ArrayList<String>();
+		ArrayList<String> answersFromFile = new ArrayList<String>();
 
 		while ((currentLine = bufferedReader.readLine()) != null)
 		{

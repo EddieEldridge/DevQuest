@@ -11,13 +11,13 @@ public class Runner
 	public static void main(String[] args) throws Exception
 	{
 		// Instance variables
-		SetupGameOptions gameSetup = new SetupGameOptions();
-
+		GameSetupInterface gameSetup = new GameSetupImpl();
+		
 		// Setup the game
 		//gameSetup.setupPlayerName();
 		//gameSetup.setupPlayerDifficulty();
-		//gameSetup.loadQuestionsFromFile();
-		//gameSetup.loadAnswersFromFile();
+		gameSetup.loadQuestionsFromFile();
+		gameSetup.loadAnswersFromFile();
 		
 		// Start the gameWindow in it's own thread
 		javax.swing.SwingUtilities.invokeLater(new Runnable()

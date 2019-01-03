@@ -20,10 +20,7 @@ public class Sprite
 	private Direction direction = Direction.DOWN; // The current orientation of the sprite
 	private int index = 0; // The current image index.
 	private Point position; // The current x, y position
-	
-	CoordinateManager playerPosition = new CoordinateManager();
 
-	
 	public Sprite(String name, Point p)
 	{
 		super();
@@ -33,6 +30,7 @@ public class Sprite
 
 	public Sprite(String name, Point p, BufferedImage[] img)
 	{
+
 		this(name, p);
 		int row = 0, col = 0;
 		for (int i = 0; i < img.length; i++)
@@ -42,7 +40,8 @@ public class Sprite
 			{
 				row++;
 				col = 0;
-			} else
+			}
+			else
 			{
 				col++;
 			}
@@ -70,17 +69,21 @@ public class Sprite
 		if (index < images[direction.getOrientation()].length - 1)
 		{
 			index++;
-		} else
+		}
+		else
 		{
 			index = 0;
 		}
-
 		return images[d.getOrientation()][index];
 	}
 
 	public void setDirection(Direction d)
 	{
 		direction = d;
+		System.out.println("=============");
+		System.out.println("Y: " + position.getY());
+		System.out.println("X: " + position.getX());
+		System.out.println("Direction : " + direction);
 	}
 
 	public Direction getDirection()
@@ -91,57 +94,43 @@ public class Sprite
 	public void move()
 	{ // This method is suspiciously like one I've seen already....
 		step(direction);
-		System.out.println("Y: " + position.getY());
-		System.out.println("X: " + position.getX());
-		System.out.println("Direction : " + direction);
+
 		switch (direction.getOrientation())
 		{
 		// UP
 		case 1:
-			if(position.getY()+1 == 10)
+
+			if (position.getY() + 1 < 10)
 			{
-				System.out.println("Cant move");
+				position.setY(position.getY() + 1);
 				break;
 			}
-			else
-			{
-				position.setY(position.getY() + 1); 
-				break;
-			}
-		// DOWN
+
+			// DOWN
 		case 2:
-			
-			if(position.getY()-1 == -1)
+			if (position.getX() - 1 > -1)
 			{
-				System.out.println("Cant move");
+				position.setX(position.getX() - 1);
 				break;
 			}
-			else
-			{
-				position.setY(position.getY() - 1); 
-				break;
-			}
-		// LEFT
+
+			// LEFT
 		case 3:
-
-
-			if(position.getX() == 0 || direction == Direction.LEFT)
+			if (position.getX() + 1 < 10)
 			{
-				System.out.println("Cant move");
+				position.setX(position.getX() + 1);
 				break;
 			}
-			else
-			{
-				position.setX(position.getX() + 1); 
-			}
-			break;
-		// RIGHT		
-		default:
-			
 
-			position.setY(position.getY() - 1); 
-			break;
+			// RIGHT
+		case 4:
+			if (position.getY() - 1 > 1)
+			{
+				position.setY(position.getY() - 1);
+				break;
+			}
+
 		}
 	}
-	
+
 }

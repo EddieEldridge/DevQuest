@@ -19,11 +19,12 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 {
 	// Instance variables
 	SetupGameResources resourceSetup = new SetupGameResources();
-	SpecialEvents specialEvents = new SpecialEvents();
+	SpecialEventsInterface specialEvents = new SpecialEventsImpl();
 	CoordinateManager coordinateManager = new CoordinateManager();
 	private Point position;
 	
-	private Sprite player;
+	private Player playerStats;
+	private Sprite playerSprite;
 	private BufferedImage[] tiles;
 	private BufferedImage[] objects;
 
@@ -47,7 +48,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 	{
 		tiles = resourceSetup.loadTiles();
 		objects = resourceSetup.loadObjects();
-		player = resourceSetup.loadPlayer();
+		playerSprite = resourceSetup.loadPlayer();
 
 		this.matrix = matrix;
 		this.things = things;
@@ -123,8 +124,8 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 		}
 
 		// Paint the player on the ground
-		point = coordinateManager.getIso(player.getPosition().getX(), player.getPosition().getY());
-		g2.drawImage(player.getImage(), point.getX(), point.getY(), null);
+		point = coordinateManager.getIso(playerSprite.getPosition().getX(), playerSprite.getPosition().getY());
+		g2.drawImage(playerSprite.getImage(), point.getX(), point.getY(), null);
 		
 		
 		
@@ -135,19 +136,19 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 	{
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
 		{
-			player.setDirection(Direction.RIGHT);
+			playerSprite.setDirection(Direction.RIGHT);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_LEFT)
 		{
-			player.setDirection(Direction.LEFT);
+			playerSprite.setDirection(Direction.LEFT);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_UP)
 		{
-			player.setDirection(Direction.UP);
+			playerSprite.setDirection(Direction.UP);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_DOWN)
 		{
-			player.setDirection(Direction.DOWN);
+			playerSprite.setDirection(Direction.DOWN);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_Z)
 		{
@@ -155,11 +156,28 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_X)
 		{
-			player.move();
+			playerSprite.move();
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_H)
 		{
-			specialEvents.showHelp();
+			try
+			{
+				// If the player answers the question correctly then increase their score by 1
+				if(specialEvents.generateQuestion() == true)
+				{
+					playerStats.setQuestionsAnswered(playerStats.getQuestionsAnswered()+1);
+					JOptionPane.showMessageDialog(null, "Correct!");
+					specialEvents.generateQuestion();
+				}
+				else if(specialEvents.generateQuestion() == false)
+				{
+					JOptionPane.showMessageDialog(null, "Hard luck, try again!");
+				}
+
+			} catch (IOException e1)
+			{
+				System.out.println("Error setting player score: " + e1);
+			}
 		}
 		else
 		{
