@@ -20,7 +20,10 @@ public class Sprite
 	private Direction direction = Direction.DOWN; // The current orientation of the sprite
 	private int index = 0; // The current image index.
 	private Point position; // The current x, y position
+	
+	CoordinateManager playerPosition = new CoordinateManager();
 
+	
 	public Sprite(String name, Point p)
 	{
 		super();
@@ -88,21 +91,57 @@ public class Sprite
 	public void move()
 	{ // This method is suspiciously like one I've seen already....
 		step(direction);
-
+		System.out.println("Y: " + position.getY());
+		System.out.println("X: " + position.getX());
+		System.out.println("Direction : " + direction);
 		switch (direction.getOrientation())
 		{
+		// UP
 		case 1:
-			position.setY(position.getY() + 1); // UP
-			break;
+			if(position.getY()+1 == 10)
+			{
+				System.out.println("Cant move");
+				break;
+			}
+			else
+			{
+				position.setY(position.getY() + 1); 
+				break;
+			}
+		// DOWN
 		case 2:
-			position.setX(position.getX() - 1); // DOWN
-			break;
+			
+			if(position.getY()-1 == -1)
+			{
+				System.out.println("Cant move");
+				break;
+			}
+			else
+			{
+				position.setY(position.getY() - 1); 
+				break;
+			}
+		// LEFT
 		case 3:
-			position.setX(position.getX() + 1); // LEFT
+
+
+			if(position.getX() == 0 || direction == Direction.LEFT)
+			{
+				System.out.println("Cant move");
+				break;
+			}
+			else
+			{
+				position.setX(position.getX() + 1); 
+			}
 			break;
+		// RIGHT		
 		default:
-			position.setY(position.getY() - 1); // RIGHT
+			
+
+			position.setY(position.getY() - 1); 
 			break;
 		}
 	}
+	
 }

@@ -1,0 +1,10 @@
+True
+False
+True
+False
+13
+Ruby
+Perl
+Java
+20
+Loop

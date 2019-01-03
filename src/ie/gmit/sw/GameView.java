@@ -21,7 +21,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 	SetupGameResources resourceSetup = new SetupGameResources();
 	SpecialEvents specialEvents = new SpecialEvents();
 	CoordinateManager coordinateManager = new CoordinateManager();
-	
+	private Point position;
 	
 	private Sprite player;
 	private BufferedImage[] tiles;
@@ -125,6 +125,9 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 		// Paint the player on the ground
 		point = coordinateManager.getIso(player.getPosition().getX(), player.getPosition().getY());
 		g2.drawImage(player.getImage(), point.getX(), point.getY(), null);
+		
+		
+		
 	}
 
 	

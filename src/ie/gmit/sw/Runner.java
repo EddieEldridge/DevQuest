@@ -16,7 +16,8 @@ public class Runner
 		// Setup the game
 		//gameSetup.setupPlayerName();
 		//gameSetup.setupPlayerDifficulty();
-		gameSetup.loadQuestionsFromFile();
+		//gameSetup.loadQuestionsFromFile();
+		//gameSetup.loadAnswersFromFile();
 		
 		// Start the gameWindow in it's own thread
 		javax.swing.SwingUtilities.invokeLater(new Runnable()

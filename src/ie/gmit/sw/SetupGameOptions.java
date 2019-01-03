@@ -21,13 +21,12 @@ public class SetupGameOptions
 	private String playerName;
 	private String playerDifficulty;
 	private String questionsFile = "resources/questions.txt";
+	private String answersFile = "resources/answers.txt";
 	private String[] difficultyChoices = { "Easy", "Medium", "Hard" };
-	public List<String> questionsFromFile = new ArrayList<String>();
 
 	// Prompt the user for their name
 	public void setupPlayerName()
 	{
-		JOptionPane playerNameWindow = new JOptionPane("Player name");
 		playerName = JOptionPane.showInputDialog("Player Name");
 		player.setPlayerName(playerName);
 		showPlayerName = "Good luck " + player.getPlayerName() + " you'll need it!";
@@ -44,18 +43,38 @@ public class SetupGameOptions
 		player.setPlayerDifficulty(playerDifficulty);
 	}
 
-	public void loadQuestionsFromFile() throws IOException
+	public List<String> loadQuestionsFromFile() throws IOException
 	{
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(questionsFile));
 		String currentLine;
 		
+		List<String> questionsFromFile = new ArrayList<String>();
+
 		while ((currentLine = bufferedReader.readLine()) != null)
 		{
 			questionsFromFile.add(currentLine);
 		}
 		
-		System.out.println(questionsFromFile);
 		bufferedReader.close();
+		
+		return questionsFromFile;
+	}
+	
+	public List<String> loadAnswersFromFile() throws IOException
+	{
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(answersFile));
+		String currentLine;
+		
+		List<String> answersFromFile = new ArrayList<String>();
+
+		while ((currentLine = bufferedReader.readLine()) != null)
+		{
+			answersFromFile.add(currentLine);
+		}
+		
+		bufferedReader.close();
+		
+		return answersFromFile;
 	}
 
 }
