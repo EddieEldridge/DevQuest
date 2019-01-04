@@ -9,26 +9,46 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-public class PaintableImpl extends JPanel implements PaintableInterface 
+public class PaintableImpl extends JPanel implements PaintableInterface
 {
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7572248501008209972L;
+
 	/*
 	 * This matrix represents the isometric game model, with each number mapping to
 	 * an image in the images/ground/ directory.
 	 */
-	private int[][] matrix = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
+	private int[][] tilesMatrix = { 
+			{ 1, 0, 0, 0, 0, 0 , 0, 0, 0, 2},
+			{ 0, 1, 0, 0, 0, 0 , 0, 0, 0, 2},
+			{ 0, 0, 2, 0, 0, 0 , 0, 0, 0, 2},
+			{ 0, 0, 0, 1, 0, 0 , 0, 0, 0, 2},
+			{ 2, 2, 2, 2, 1, 0 , 0, 0, 0, 2},
+			{ 3, 3, 3, 3, 1, 1 , 1, 0, 0, 1},
+			{ 5, 5, 5, 5, 3, 3 , 1, 0, 0, 1},
+			{ 4, 4, 4, 5, 3, 3 , 1, 0, 0, 0},
+			{ 4, 4, 4, 4, 5, 3 , 1, 6, 6, 6},
+			{ 4, 4, 4, 4, 4, 3 , 1, 7, 7, 7}
+	};
 
 	// This matrix is a representation of where objects (things) in the game are
 	// placed
-	private int[][] things = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  },
-			{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  }, {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  }, {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  },
-			{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0  }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+	private int[][] objectMatrix = { 
+			{ 0, 0, 0, 5, 5, 5 , 5, 5, 5, 0},
+			{ 5, 0, 0, 0, 5, 5 , 5, 5, 5, 0},
+			{ 5, 5, 0, 0, 0, 5 , 5, 5, 5, 9},
+			{ 5, 5, 2, 0, 0, 0 , 5, 5, 5, 0},
+			{ 0, 0, 0, 0, 0, 0 , 0, 5, 5, 0},
+			{ 0, 0, 0, 0, 0, 0 , 0, 0, 5, 0},
+			{ 0, 0, 0, 0, 0, 3 , 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0}
+	};
 
-	
 	ResourceSetupInterface resourceSetup = new ResourceSetupImpl();
 	CoordinateManager coordinateManager = new CoordinateManager();
 
@@ -36,7 +56,6 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 
 	private Color[] cartesian = { Color.GREEN, Color.GRAY, Color.DARK_GRAY, Color.ORANGE, Color.CYAN, Color.YELLOW,
 			Color.PINK, Color.BLACK }; // This is a 2D representation
-	
 
 	static Sprite playerSprite;
 	private BufferedImage[] tiles;
@@ -49,64 +68,52 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 		objects = resourceSetup.loadObjects();
 		playerSprite = resourceSetup.loadPlayer();
 	}
-		
 
-	/* (non-Javadoc)
-	 * @see ie.gmit.sw.PaintableInterface#paintObjects(java.awt.Graphics)
-	 */
-	public void paintObjects(Graphics g)
+	// Paint the object or things on the ground
+	public void paintObjects(Graphics2D g2)
 	{
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		int imageIndex = -1, x1 = 0, y1 = 0;
-
-		for (int row = 0; row < matrix.length; row++)
+		int imageIndex = -1;
+		int x1 = 0;
+		int y1 = 0;
+		
+		for (int row = 0; row < tilesMatrix.length; row++)
 		{
-			for (int col = 0; col < matrix[row].length; col++)
+			for (int col = 0; col < tilesMatrix[row].length; col++)
 			{
-				imageIndex = matrix[row][col];
-				// Paint the object or things on the ground
-				imageIndex = things[row][col];
-				g2.drawImage(objects[imageIndex], x1, y1, null);
+				imageIndex = tilesMatrix[row][col];
+
+				if (imageIndex >= 0 && imageIndex < tiles.length)
+				{	
+					imageIndex = objectMatrix[row][col];
+					g2.drawImage(objects[imageIndex], x1, y1, null);
+				}
 			}
 		}
-		
+
 	}
-	
-	
-	/* (non-Javadoc)
-	 * @see ie.gmit.sw.PaintableInterface#paintPlayer(java.awt.Graphics)
-	 */
-	public void paintPlayer(Graphics g)
+
+	// Paint the player on the ground
+	public void paintPlayer(Graphics2D g2)
 	{
 		Point point;
 
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		
 		// Paint the player on the ground
 		point = coordinateManager.getIso(playerSprite.getPosition().getX(), playerSprite.getPosition().getY());
 		g2.drawImage(playerSprite.getImage(), point.getX(), point.getY(), null);
-		
-		
 	}
-	
-	/* (non-Javadoc)
-	 * @see ie.gmit.sw.PaintableInterface#paintComponent(java.awt.Graphics)
-	 */
-	public void paintComponent(Graphics g)
-	{ 
-		// This method needs to execute quickly...
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		int imageIndex = -1, x1 = 0, y1 = 0;
-		Point point;
 
-		for (int row = 0; row < matrix.length; row++)
+	// Paint the ground tiles
+	public void paintTiles(Graphics2D g2)
+	{
+		int imageIndex = -1;
+		int x1 = 0;
+		int y1 = 0;
+
+		for (int row = 0; row < tilesMatrix.length; row++)
 		{
-			for (int col = 0; col < matrix[row].length; col++)
+			for (int col = 0; col < tilesMatrix[row].length; col++)
 			{
-				imageIndex = matrix[row][col];
+				imageIndex = tilesMatrix[row][col];
 
 				if (imageIndex >= 0 && imageIndex < tiles.length)
 				{
@@ -117,7 +124,7 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 						y1 = coordinateManager.getIsoY(col, row);
 
 						g2.drawImage(tiles[DEFAULT_IMAGE_INDEX], x1, y1, null);
-						
+
 						if (imageIndex > DEFAULT_IMAGE_INDEX)
 						{
 							g2.drawImage(tiles[imageIndex], x1, y1, null);
@@ -144,6 +151,4 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 
 	}
 
-	
-	
 }

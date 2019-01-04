@@ -8,7 +8,6 @@ public class GameWindow
 	
 	public GameWindow() throws Exception
 	{
-		//PaintableImpl view = new PaintableImpl(model, objects);
 		GameView view = new GameView();
 		
 		Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE / 2);
