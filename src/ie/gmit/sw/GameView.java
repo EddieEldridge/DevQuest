@@ -15,7 +15,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 	SpecialEventsInterface specialEvents = new SpecialEventsImpl();
 	PaintableInterface paintInterface = new PaintableImpl();
 
-	private Player playerStats;
+	private Player playerDetails;
 	private Boolean isCorrect = true;
 
 	private static final long serialVersionUID = 777L;
@@ -83,35 +83,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_G)
 		{
-			try
-			{
-				// If the player answers the question correctly then increase their score by 1
-				while (isCorrect == true)
-				{
-					isCorrect = specialEvents.generateQuestion();
-
-					if (specialEvents.generateQuestion() == true)
-					{
-						JOptionPane.showMessageDialog(null, "Correct!");
-						playerStats.setQuestionsAnswered(playerStats.getQuestionsAnswered() + 1);
-					}
-				}
-
-				if (isCorrect == false)
-				{
-					// If the player get's the question wrong, then set their score to 0
-					JOptionPane.showMessageDialog(null, "Hard luck, try again!");
-					playerStats.setQuestionsAnswered(0);
-				}
-				else if (playerStats.getQuestionsAnswered() >= 5)
-				{
-					specialEvents.generateFanfare();
-				}
-
-			} catch (IOException e1)
-			{
-				System.out.println("Error setting player score: " + e1);
-			}
+			// ask question
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_H)
 		{

@@ -94,43 +94,42 @@ public class Sprite
 	public void move()
 	{ // This method is suspiciously like one I've seen already....
 		step(direction);
-
+		
 		switch (direction.getOrientation())
 		{
-		// UP
-		case 1:
-
-			if (position.getY() + 1 < 10)
-			{
-				position.setY(position.getY() + 1);
-			}
-			break;
-
+			// UP
+			case 1:
+				if (position.getY() + 1 < 10)
+				{
+					position.setY(position.getY() + 1);
+					break;
+				}
+	
 			// DOWN
-		case 2:
-			if (position.getX() - 1 > -1)
-			{
-				position.setX(position.getX() - 1);
-			}
-			break;
-
+			case 2:
+				if (position.getX() - 1 > -1)
+				{
+					position.setX(position.getX() - 1);
+					break;
+				}
+	
 			// LEFT
-		case 3:
-			if (position.getX() + 1 < 10)
-			{
-				position.setX(position.getX() + 1);
-			}
-			break;
-
+			case 3:
+				if (position.getX() + 1 < 10)
+				{
+					position.setX(position.getX() + 1);
+					break;
+				}
+	
 			// RIGHT
-		case 4:
-			if (position.getY() - 1 > -1)
-			{
-				position.setY(position.getY() - 1);
-			}
-			break;
-
+			default:
+				if (position.getY() - 1 > -1)
+				{
+					position.setY(position.getY() - 1);
+					break;
+				}
 		}
+		
 	}
 
 }

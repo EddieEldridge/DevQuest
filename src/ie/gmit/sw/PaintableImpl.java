@@ -81,6 +81,8 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 			for (int col = 0; col < tilesMatrix[row].length; col++)
 			{
 				imageIndex = tilesMatrix[row][col];
+				x1 = coordinateManager.getIsoX(col, row);
+				y1 = coordinateManager.getIsoY(col, row);
 
 				if (imageIndex >= 0 && imageIndex < tiles.length)
 				{	
