@@ -62,11 +62,32 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 	private BufferedImage[] objects;
 	public static boolean isIsometric = true; // Toggle between 2D and Isometric (Z key)
 
-	public PaintableImpl() throws Exception
+	public PaintableImpl()
 	{
-		tiles = resourceSetup.loadTiles();
-		objects = resourceSetup.loadObjects();
-		playerSprite = resourceSetup.loadPlayer();
+		try
+		{
+			tiles = resourceSetup.loadTiles();
+		} catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try
+		{
+			objects = resourceSetup.loadObjects();
+		} catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try
+		{
+			playerSprite = resourceSetup.loadPlayer();
+		} catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// Paint the object or things on the ground
@@ -151,6 +172,12 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 			}
 		}
 
+	}
+	
+	public void paintAsIsometric()
+	{
+		PaintableImpl.isIsometric = !PaintableImpl.isIsometric;
+		super.repaint();
 	}
 
 }

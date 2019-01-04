@@ -1,6 +1,8 @@
 package ie.gmit.sw;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
+
 import javax.swing.*;
 
 public class GameWindow
@@ -9,6 +11,7 @@ public class GameWindow
 	public GameWindow() throws Exception
 	{
 		GameView view = new GameView();
+		KeyHandler keyHelper = new KeyHandler();
 		
 		Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE / 2);
 		view.setPreferredSize(d);
@@ -20,7 +23,7 @@ public class GameWindow
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().setLayout(new FlowLayout());
 		f.add(view);
-		f.addKeyListener(view);
+		f.addKeyListener(keyHelper);
 		f.setSize(1000, 1000);
 		f.setLocation(500, 200);
 		f.pack();

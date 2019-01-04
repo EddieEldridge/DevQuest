@@ -11,5 +11,7 @@ public interface PaintableInterface
 	void paintPlayer(Graphics2D g);
 
 	void paintTiles(Graphics2D g);
+	
+	void paintAsIsometric();
 
 }
