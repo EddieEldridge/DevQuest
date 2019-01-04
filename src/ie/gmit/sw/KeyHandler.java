@@ -13,19 +13,19 @@ public class KeyHandler extends KeyAdapter
 	  {
 		  if (keyPressed.getKeyCode() == KeyEvent.VK_RIGHT)
 			{
-				PaintableImpl.playerSprite.setDirection(Direction.RIGHT);
+				//PaintableImpl.playerSprite.setDirection(Direction.RIGHT);
 			}
 			else if (keyPressed.getKeyCode() == KeyEvent.VK_LEFT)
 			{
-				PaintableImpl.playerSprite.setDirection(Direction.LEFT);
+				//PaintableImpl.playerSprite.setDirection(Direction.LEFT);
 			}
 			else if (keyPressed.getKeyCode() == KeyEvent.VK_UP)
 			{
-				PaintableImpl.playerSprite.setDirection(Direction.UP);
+				//PaintableImpl.playerSprite.setDirection(Direction.UP);
 			}
 			else if (keyPressed.getKeyCode() == KeyEvent.VK_DOWN)
 			{
-				PaintableImpl.playerSprite.setDirection(Direction.DOWN);
+				//PaintableImpl.playerSprite.setDirection(Direction.DOWN);
 			}
 			else if (keyPressed.getKeyCode() == KeyEvent.VK_Z)
 			{
@@ -33,7 +33,7 @@ public class KeyHandler extends KeyAdapter
 			}
 			else if (keyPressed.getKeyCode() == KeyEvent.VK_X)
 			{
-				PaintableImpl.playerSprite.move();
+				//PaintableImpl.playerSprite.move();
 			}
 			else if (keyPressed.getKeyCode() == KeyEvent.VK_G)
 			{

@@ -7,7 +7,6 @@ import javax.swing.*;
 
 public class GameWindow
 {
-	
 	public GameWindow() throws Exception
 	{
 		GameView view = new GameView();

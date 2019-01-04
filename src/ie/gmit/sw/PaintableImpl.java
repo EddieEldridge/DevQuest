@@ -49,15 +49,16 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0}
 	};
 
-	ResourceSetupInterface resourceSetup = new ResourceSetupImpl();
-	CoordinateManager coordinateManager = new CoordinateManager();
-
-	private static final int DEFAULT_IMAGE_INDEX = 0;
-
 	private Color[] cartesian = { Color.GREEN, Color.GRAY, Color.DARK_GRAY, Color.ORANGE, Color.CYAN, Color.YELLOW,
 			Color.PINK, Color.BLACK }; // This is a 2D representation
+	
+	ResourceSetupInterface resourceSetup = new ResourceSetupImpl();
+	CoordinateManager coordinateManager = new CoordinateManager();
+	
+	
+	private static final int DEFAULT_IMAGE_INDEX = 0;
 
-	static Sprite playerSprite;
+	private Sprite playerSprite;
 	private BufferedImage[] tiles;
 	private BufferedImage[] objects;
 	public static boolean isIsometric = true; // Toggle between 2D and Isometric (Z key)
@@ -121,6 +122,9 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 		Point point;
 
 		// Paint the player on the ground
+		System.out.println(playerSprite.getName());
+		System.out.println(playerSprite.getPosition());
+		
 		point = coordinateManager.getIso(playerSprite.getPosition().getX(), playerSprite.getPosition().getY());
 		g2.drawImage(playerSprite.getImage(), point.getX(), point.getY(), null);
 	}

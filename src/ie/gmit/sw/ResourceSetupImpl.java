@@ -8,9 +8,10 @@ import javax.imageio.ImageIO;
 
 public class ResourceSetupImpl implements ResourceSetupInterface
 {
-	private Sprite player;
 	private BufferedImage[] tiles;
 	private BufferedImage[] objects;
+	GraphicFactory graphicFactory = new GraphicFactory();
+	Graphic playerSprite = graphicFactory.getGraphic("Sprite");
 
 	// Load the images from the resource folder to be used as tiles
 	private BufferedImage[] loadImages(String directory, BufferedImage[] img) throws Exception
@@ -30,8 +31,8 @@ public class ResourceSetupImpl implements ResourceSetupInterface
 
 	public Sprite loadPlayer() throws Exception
 	{
-		player = new Sprite("Player 1", new Point(0, 0), loadImages("./resources/images/sprites/default", null));
-		return player;
+		playerSprite = new Sprite(loadImages("./resources/images/sprites/default", null));
+		return (Sprite) playerSprite;
 	}
 	
 	public BufferedImage[] loadTiles() throws Exception
