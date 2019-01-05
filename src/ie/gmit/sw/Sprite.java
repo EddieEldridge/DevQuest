@@ -48,8 +48,6 @@ public class Sprite extends Graphic
 		// TODO Auto-generated constructor stub
 	}
 
-
-
 	@Override
 	public String getName()
 	{
@@ -68,6 +66,21 @@ public class Sprite extends Graphic
 		return images[direction.getOrientation()][index];
 	}
 
+	public void setDirection(Direction d)
+	{
+		direction = d;
+		System.out.println("=============");
+		System.out.println("Y: " + position.getY());
+		System.out.println("X: " + position.getX());
+		System.out.println("Direction : " + direction);
+	}
+
+	public Direction getDirection()
+	{
+		return this.direction;
+	}
+
+	
 	// Functionality
 	public BufferedImage step(Direction d)
 	{
@@ -83,20 +96,7 @@ public class Sprite extends Graphic
 		return images[d.getOrientation()][index];
 	}
 
-	public void setDirection(Direction d)
-	{
-		direction = d;
-		System.out.println("=============");
-		System.out.println("Y: " + position.getY());
-		System.out.println("X: " + position.getX());
-		System.out.println("Direction : " + direction);
-	}
-
-	public Direction getDirection()
-	{
-		return this.direction;
-	}
-
+	
 	public void move()
 	{ 
 		step(direction);

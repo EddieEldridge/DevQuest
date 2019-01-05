@@ -22,28 +22,28 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 	 * an image in the images/ground/ directory.
 	 */
 	private int[][] tilesMatrix = { 
-			{ 1, 0, 0, 0, 0, 0 , 0, 0, 0, 2},
-			{ 0, 1, 0, 0, 0, 0 , 0, 0, 0, 2},
-			{ 0, 0, 2, 0, 0, 0 , 0, 0, 0, 2},
-			{ 0, 0, 0, 1, 0, 0 , 0, 0, 0, 2},
-			{ 2, 2, 2, 2, 1, 0 , 0, 0, 0, 2},
-			{ 3, 3, 3, 3, 1, 1 , 1, 0, 0, 1},
-			{ 5, 5, 5, 5, 3, 3 , 1, 0, 0, 1},
-			{ 4, 4, 4, 5, 3, 3 , 1, 0, 0, 0},
-			{ 4, 4, 4, 4, 5, 3 , 1, 6, 6, 6},
-			{ 4, 4, 4, 4, 4, 3 , 1, 7, 7, 7}
+			{ 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1},
+			{ 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1},
+			{ 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1},
+			{ 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1},
+			{ 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1},
+			{ 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1},
+			{ 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1},
+			{ 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1},
+			{ 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1},
+			{ 1, 1, 1, 1, 1, 1 , 1, 1, 1, 1}
 	};
 
 	// This matrix is a representation of where objects (things) in the game are
 	// placed
 	private int[][] objectMatrix = { 
-			{ 0, 0, 0, 5, 5, 5 , 5, 5, 5, 0},
-			{ 5, 0, 0, 0, 5, 5 , 5, 5, 5, 0},
-			{ 5, 5, 0, 0, 0, 5 , 5, 5, 5, 9},
-			{ 5, 5, 2, 0, 0, 0 , 5, 5, 5, 0},
-			{ 0, 0, 0, 0, 0, 0 , 0, 5, 5, 0},
-			{ 0, 0, 0, 0, 0, 0 , 0, 0, 5, 0},
-			{ 0, 0, 0, 0, 0, 3 , 0, 0, 0, 0},
+			{ 1, 0, 0, 0, 0, 0 , 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0},
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0},
 			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0},
 			{ 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0}
@@ -58,7 +58,7 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 	
 	private static final int DEFAULT_IMAGE_INDEX = 0;
 
-	private Sprite playerSprite;
+	static Sprite playerSprite;
 	private BufferedImage[] tiles;
 	private BufferedImage[] objects;
 	public static boolean isIsometric = true; // Toggle between 2D and Isometric (Z key)
@@ -68,26 +68,30 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 		try
 		{
 			tiles = resourceSetup.loadTiles();
-		} catch (Exception e)
+		} 
+		catch (Exception e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error loading tiles: " + e);
 		}
+		
 		try
 		{
 			objects = resourceSetup.loadObjects();
-		} catch (Exception e)
+		} 
+		catch (Exception e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error loading objects: " + e);
+
 		}
+		
 		try
 		{
 			playerSprite = resourceSetup.loadPlayer();
-		} catch (Exception e)
+		} 
+		catch (Exception e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error loading player sprite: " + e);
+
 		}
 	}
 
@@ -120,11 +124,6 @@ public class PaintableImpl extends JPanel implements PaintableInterface
 	public void paintPlayer(Graphics2D g2)
 	{
 		Point point;
-
-		// Paint the player on the ground
-		System.out.println(playerSprite.getName());
-		System.out.println(playerSprite.getPosition());
-		
 		point = coordinateManager.getIso(playerSprite.getPosition().getX(), playerSprite.getPosition().getY());
 		g2.drawImage(playerSprite.getImage(), point.getX(), point.getY(), null);
 	}

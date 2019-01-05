@@ -1,10 +1,12 @@
 package ie.gmit.sw;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public interface SpecialEventsInterface
 {
 	public void showHelp();
-	public Boolean generateQuestion() throws IOException;
+	public String[] generateQuestion() throws IOException;
 	public void generateFanfare();
+	public void askQuestion();
 }

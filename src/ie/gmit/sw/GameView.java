@@ -15,7 +15,7 @@ public class GameView extends JPanel implements ActionListener
 	PaintableInterface paintInterface = new PaintableImpl();
 	
 	private static final long serialVersionUID = 777L;
-	public static final int DEFAULT_VIEW_SIZE = 1280;
+	static final int DEFAULT_VIEW_SIZE = 1280;
 	static final int TILE_WIDTH = 128;
 	static final int TILE_HEIGHT = 64;
 
