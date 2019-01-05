@@ -14,10 +14,8 @@ public class Runner
 		GameSetupInterface gameSetup = new GameSetupImpl();
 		
 		// Setup the game
-		//gameSetup.setupPlayerName();
-		//gameSetup.setupPlayerDifficulty();
-		gameSetup.loadQuestionsFromFile();
-		gameSetup.loadAnswersFromFile();
+		gameSetup.setupPlayerName();
+		gameSetup.setupPlayerDifficulty();
 		
 		// Start the gameWindow in it's own thread
 		javax.swing.SwingUtilities.invokeLater(new Runnable()

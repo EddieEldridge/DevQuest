@@ -1,19 +1,28 @@
 package ie.gmit.sw;
 
-public class Player
+public final class Player
 {
 	// Variables
-	 String playerName;
-	 String playerDifficulty;
-	 int questionsAnswered;
+	String playerName;
+	String playerDifficulty;
+	int questionsAnswered;
 
-	
+	private static final Player playerSingleton = new Player();
+
+	private Player()
+	{
+	}
+
+	public static Player getInstance()
+	{
+		return playerSingleton;
+	}
+
 	public int getQuestionsAnswered()
 	{
 		return questionsAnswered;
 	}
 
-	
 	public void setQuestionsAnswered(int questionsAnswered)
 	{
 		this.questionsAnswered = questionsAnswered;
@@ -39,6 +48,4 @@ public class Player
 		this.playerName = playerName;
 	}
 
-
 }
-	

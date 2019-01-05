@@ -33,9 +33,6 @@ public enum SoundEffect
 			// Use URL (instead of File) to read from disk and JAR.
 			URL url = this.getClass().getClassLoader().getResource(soundFileName);
 			
-			System.out.println("URL: " + url);
-			System.out.println("Filename: " + soundFileName);
-			
 			// Set up an audio input stream piped from the sound file.
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(url);
 			// Get a clip resource.
@@ -44,13 +41,13 @@ public enum SoundEffect
 			clip.open(audioInputStream);
 		} catch (UnsupportedAudioFileException e)
 		{
-			e.printStackTrace();
+			System.out.println("Unsupported file: " +  e);
 		} catch (IOException e)
 		{
-			e.printStackTrace();
+			System.out.println("IOException: " +  e);
 		} catch (LineUnavailableException e)
 		{
-			e.printStackTrace();
+			System.out.println("LineUnavailableException: " +  e);
 		}
 	}
 

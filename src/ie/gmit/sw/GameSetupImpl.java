@@ -16,12 +16,21 @@ import javax.swing.JOptionPane;
 public class GameSetupImpl implements GameSetupInterface
 {
 	// Instance variables
-	Player player = new Player();
+	Player player = Player.getInstance();
+	
+	public Player getPlayer()
+	{
+		return player;
+	}
+
+	public void setPlayer(Player player)
+	{
+		this.player = player;
+	}
+
 	private String showPlayerName;
 	private String playerName;
 	private String playerDifficulty;
-	private String questionsFile = "resources/questions.txt";
-	private String answersFile = "resources/answers.txt";
 	private String[] difficultyChoices = { "Easy", "Medium", "Hard" };
 
 	// Prompt the user for their name
@@ -40,43 +49,10 @@ public class GameSetupImpl implements GameSetupInterface
 		playerDifficulty = (String) JOptionPane.showInputDialog(null, "Choose now...", "Choose your difficulty!",
 				JOptionPane.QUESTION_MESSAGE, null, difficultyChoices, // Array of choices
 				difficultyChoices[1]); // Initial choice
-		System.out.println(playerDifficulty);
 		player.setPlayerDifficulty(playerDifficulty);
 		return playerDifficulty;
 	}
-
-	public ArrayList<String> loadQuestionsFromFile() throws IOException
-	{
-		BufferedReader bufferedReader = new BufferedReader(new FileReader(questionsFile));
-		String currentLine;
-		
-		ArrayList<String> questionsFromFile = new ArrayList<String>();
-
-		while ((currentLine = bufferedReader.readLine()) != null)
-		{
-			questionsFromFile.add(currentLine);
-		}
-		
-		bufferedReader.close();
-		
-		return questionsFromFile;
-	}
 	
-	public ArrayList<String> loadAnswersFromFile() throws IOException
-	{
-		BufferedReader bufferedReader = new BufferedReader(new FileReader(answersFile));
-		String currentLine;
-		
-		ArrayList<String> answersFromFile = new ArrayList<String>();
-
-		while ((currentLine = bufferedReader.readLine()) != null)
-		{
-			answersFromFile.add(currentLine);
-		}
-		
-		bufferedReader.close();
-		
-		return answersFromFile;
-	}
+	
 
 }
