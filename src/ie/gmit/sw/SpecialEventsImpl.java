@@ -13,14 +13,15 @@ public class SpecialEventsImpl implements SpecialEventsInterface
 	Boolean isCorrect=false;
 	Player player = new Player();
 	
-	public void SpecialEventsImpl() throws IOException
-	{
-		
-	}
-	
 	public void showHelp()
 	{
 		JOptionPane.showMessageDialog(null, "Use the arrow keys to move the player. \nMove Player: 'X' \nToggle View: 'Z'");
+	}
+	
+	public SpecialEventsImpl()
+	{
+		SoundEffect.init();
+	    SoundEffect.volume = SoundEffect.Volume.LOW;  
 	}
 	
 	public String[] generateQuestion() throws IOException
@@ -70,8 +71,7 @@ public class SpecialEventsImpl implements SpecialEventsInterface
 
 		// Prompt the player for their answer
 		playerAnswer = JOptionPane.showInputDialog(questionAnswerPair[0]);
-		   	   
-		
+		   	   	
 		if(playerAnswer.equals(questionAnswerPair[1]))
 		{
 			player.setQuestionsAnswered(player.getQuestionsAnswered()+1);
