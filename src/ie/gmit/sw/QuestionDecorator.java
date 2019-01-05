@@ -7,7 +7,7 @@ public abstract class QuestionDecorator implements Question
 {
 	protected Question decoratedQuestion;
 
-	public QuestionDecorator(Question QuestionDecorator){
+	public QuestionDecorator(Question decoratedQuestion){
 	      this.decoratedQuestion = decoratedQuestion;
 	   }
 	

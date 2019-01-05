@@ -14,7 +14,7 @@ public class MediumQuestion implements Question
 	@Override
 	public ArrayList<String> generateQuestion() throws IOException
 	{
-		System.out.println("Generating easy question...");
+		System.out.println("Generating medium question...");
 
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(mediumQuestionsFile));
 		String currentLine;

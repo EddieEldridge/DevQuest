@@ -5,6 +5,19 @@ public final class Player
 	// Variables
 	String playerName;
 	String playerDifficulty;
+	int roundsWon;
+
+	public int getRoundsWon()
+	{
+		return roundsWon;
+	}
+
+
+	public void setRoundsWon(int roundsWon)
+	{
+		this.roundsWon = roundsWon;
+	}
+
 	int questionsAnswered;
 
 	private static final Player playerSingleton = new Player();

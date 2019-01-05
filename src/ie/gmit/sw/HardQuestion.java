@@ -13,7 +13,7 @@ public class HardQuestion implements Question
 	@Override
 	public ArrayList<String> generateQuestion() throws IOException
 	{
-		System.out.println("Generating easy question...");
+		System.out.println("Generating hard question...");
 		
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(hardQuestionsFile));
 		String currentLine;

@@ -14,7 +14,7 @@ public class Runner
 		GameSetupInterface gameSetup = new GameSetupImpl();
 		
 		// Setup the game
-		gameSetup.setupPlayerName();
+		//gameSetup.setupPlayerName();
 		gameSetup.setupPlayerDifficulty();
 		
 		// Start the gameWindow in it's own thread

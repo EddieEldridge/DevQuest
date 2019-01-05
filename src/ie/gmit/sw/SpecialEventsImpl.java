@@ -14,26 +14,32 @@ public class SpecialEventsImpl implements SpecialEventsInterface
 	Player player = Player.getInstance();
 	ArrayList<String> questionsFromFile;
 	ArrayList<String> answersFromFile;
-
-	public void showHelp()
-	{
-		JOptionPane.showMessageDialog(null,
-				"Use the arrow keys to move the player. \nMove Player: 'X' \nToggle View: 'Z'");
-	}
-
+	
 	public SpecialEventsImpl()
 	{
 		SoundEffect.init();
 		SoundEffect.volume = SoundEffect.Volume.LOW;
 	}
-
+	
+	public void showHelp()
+	{
+		JOptionPane.showMessageDialog(null,
+				"Use the arrow keys to move the player. \nMove Player: 'X' \nToggle View: 'Z'");
+	}
+	
+	public void showMoreHelp()
+	{
+		JOptionPane.showMessageDialog(null,
+				"You must be at a computer to ask questions.");
+	}
+	
 	public String[] generateQuestion() throws IOException
 	{
 		// Variables
 		String questionToAsk;
 		String actualAnswer;
 		System.out.println(player.getPlayerDifficulty());
-		
+
 		if (player.getPlayerDifficulty().equals("Easy"))
 		{
 			Question easyQuestion = new EasyQuestionDecorator(new EasyQuestion());
@@ -43,17 +49,17 @@ public class SpecialEventsImpl implements SpecialEventsInterface
 		}
 		else if (player.getPlayerDifficulty().equals("Medium"))
 		{
-			//Question mediumQuestion = new MediumQuestionDecorator(new MediumQuestion());
+			Question mediumQuestion = new MediumQuestionDecorator(new MediumQuestion());
 
-			//questionsFromFile = med.generateQuestion();
-			//answersFromFile = easyQuestion.generateAnswers();
+			questionsFromFile = mediumQuestion.generateQuestion();
+			answersFromFile = mediumQuestion.generateAnswers();
 		}
 		else if (player.getPlayerDifficulty().equals("Hard"))
 		{
-			//Question easyQuestion = new EasyQuestionDecorator(new EasyQuestion());
+			Question hardQuestion = new HardQuestionDecorator(new HardQuestion());
 
-			//questionsFromFile = easyQuestion.generateQuestion();
-			//answersFromFile = easyQuestion.generateAnswers();
+			questionsFromFile = hardQuestion.generateQuestion();
+			answersFromFile = hardQuestion.generateAnswers();
 		}
 
 		String[] questionAnswerPair = { "", "" };
@@ -74,6 +80,7 @@ public class SpecialEventsImpl implements SpecialEventsInterface
 
 	public void generateFanfare()
 	{
+		SoundEffect.VICTORY.play();
 		JOptionPane.showMessageDialog(null, "YOU HAVE WON!");
 	}
 
@@ -82,33 +89,44 @@ public class SpecialEventsImpl implements SpecialEventsInterface
 		String[] questionAnswerPair = { "", "" };
 		String playerAnswer;
 
-		try
-		{
-			questionAnswerPair = generateQuestion();
-		} catch (IOException e)
-		{
-			System.out.println("Error here: ");
-		}
+		Point playerPoint = PaintableImpl.playerSprite.getPosition();
+		Point computerPoint = new Point(1, 9);
 
-		System.out.println("Correct Answer: " + questionAnswerPair[1]);
-
-		// Prompt the player for their answer
-		playerAnswer = JOptionPane.showInputDialog(questionAnswerPair[0]);
-
-		if (playerAnswer.equals(questionAnswerPair[1]))
+		if (playerPoint.getX() == computerPoint.getX() && playerPoint.getY() == computerPoint.getY())
 		{
-			player.setQuestionsAnswered(player.getQuestionsAnswered() + 1);
-			JOptionPane.showMessageDialog(null, "Correct Answers: " + player.getQuestionsAnswered());
-			askAnotherQuestion();
+			try
+			{
+				questionAnswerPair = generateQuestion();
+			} catch (IOException e)
+			{
+				System.out.println("Error here: ");
+			}
+			
+			System.out.println("Correct Answer: " + questionAnswerPair[1]);
+
+			// Prompt the player for their answer
+			playerAnswer = JOptionPane.showInputDialog(questionAnswerPair[0]);
+
+			if (playerAnswer.equals(questionAnswerPair[1]))
+			{
+				player.setQuestionsAnswered(player.getQuestionsAnswered() + 1);
+				JOptionPane.showMessageDialog(null, "Correct Answers: " + player.getQuestionsAnswered());
+				askAnotherQuestion();
+			}
+			else
+			{
+				SoundEffect.FAILURE.play();
+				player.setQuestionsAnswered(0);
+				JOptionPane.showMessageDialog(null, "Wrong answer, try again.");
+				System.out.println("Correct Answer: " + questionAnswerPair[1]);
+				System.out.println("Player Answer: " + playerAnswer);
+			}
 		}
 		else
 		{
-			SoundEffect.FAILURE.play();
-			player.setQuestionsAnswered(0);
-			JOptionPane.showMessageDialog(null, "Wrong answer, try again.");
-			System.out.println("Correct Answer: " + questionAnswerPair[1]);
-			System.out.println("Player Answer: " + playerAnswer);
+			showMoreHelp();
 		}
+		
 
 	}
 
@@ -120,8 +138,14 @@ public class SpecialEventsImpl implements SpecialEventsInterface
 		}
 		else if (player.getQuestionsAnswered() > 5)
 		{
-			SoundEffect.VICTORY.play();
+			player.setRoundsWon(player.getRoundsWon() + 1);
+			JOptionPane.showMessageDialog(null,
+					"You have won " + player.getRoundsWon() + "rounds. You need to win " + (3 - player.getRoundsWon()) + "rounds more to win!");
+		}
+		if(player.getRoundsWon()>3)
+		{
 			generateFanfare();
 		}
+		
 	}
 }
