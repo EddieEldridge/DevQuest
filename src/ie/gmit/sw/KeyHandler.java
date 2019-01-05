@@ -38,7 +38,7 @@ public class KeyHandler extends KeyAdapter
 			}
 			else if (keyPressed.getKeyCode() == KeyEvent.VK_G)
 			{
-				specialEvents.askQuestion();
+				specialEvents.checkLocation();
 			}
 			else if (keyPressed.getKeyCode() == KeyEvent.VK_H)
 			{

@@ -9,4 +9,5 @@ public interface SpecialEventsInterface
 	public String[] generateQuestion() throws IOException;
 	public void generateFanfare();
 	public void askQuestion();
+	public void checkLocation();
 }
