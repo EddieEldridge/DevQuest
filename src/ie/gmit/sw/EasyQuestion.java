@@ -1,20 +1,32 @@
 package ie.gmit.sw;
 
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-
+/**
+ * Generates easy questions and answers to ask the player
+ * and implements Question
+ * @see Question
+ * @author Eddie Eldridge
+ * @version 1.0
+ */
 public class EasyQuestion implements Question
 {
-	private String easyQuestionsFile = "resources/easyQuestions.txt";
-	private String easyAnswersFile = "resources/easyAnswers.txt";
+	/**
+	 * The relative file paths of the easy Questions and Answers
+	 */
+	private String easyQuestionsFile = "./resources/questions/easyQuestions.txt";
+	private String easyAnswersFile = "./resources/questions/easyAnswers.txt";
 	
+	/**
+	 * Reads in the questions from a text file and returns them as an ArrayList of strings
+	 */
 	@Override
 	public ArrayList<String> generateQuestion() throws IOException
 	{
-		System.out.println("Generating easy question...");
-		
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(easyQuestionsFile));
 		String currentLine;
 		
@@ -30,6 +42,9 @@ public class EasyQuestion implements Question
 		return questionsFromFile;
 	}
 	
+	/**
+	 * Reads in the answers from a text file and returns them as an ArrayList of strings
+	 */
 	@Override
 	public ArrayList<String> generateAnswers() throws IOException
 	{

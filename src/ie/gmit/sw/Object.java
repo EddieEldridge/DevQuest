@@ -2,7 +2,14 @@ package ie.gmit.sw;
 
 import java.awt.image.BufferedImage;
 
-public class Background extends Graphic
+/**
+ * A subclass in the Graphic hierarchy
+ * and extends Graphic
+ * @see Graphic
+ * @author Eddie Eldridge
+ * @version 1.0
+ */
+public class Object extends Graphic
 {
 
 	@Override

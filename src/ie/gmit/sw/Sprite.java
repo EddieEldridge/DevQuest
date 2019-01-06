@@ -1,30 +1,25 @@
 package ie.gmit.sw;
 
-/*
- *   
- *   BufferedImage[][]
- *   --------------------------
- *   {U0, U1, U2, U3}, =>Up
- *   {D0, D1, D2, D3}, =>Down
- *   {L0, L1, L2, L3}, =>Left
- *   {R0, R1, R2, R3}, =>Right
- * 
+/**
+ * Part of the Graphic hierarchy
+ * Used mainly to manipulate the player sprite
+ * @see Graphic
+ * @author Eddie Eldridge
+ * @version 1.0
  */
-
 import java.awt.image.*;
 
 public class Sprite extends Graphic
 {
-	
 	private BufferedImage[][] images = new BufferedImage[4][3]; // The images used in the animation
 	private Direction direction = Direction.DOWN; // The current orientation of the sprite
-	Point p = new Point(0,0);
-	
+	Point p = new Point(0, 0);
+
 	public Sprite(BufferedImage[] img)
 	{
 		setName("Sprite");
 		setPosition(p);
-		
+
 		int row = 0, col = 0;
 		for (int i = 0; i < img.length; i++)
 		{
@@ -40,8 +35,6 @@ public class Sprite extends Graphic
 			}
 		}
 	}
-
-	
 
 	public Sprite()
 	{
@@ -66,6 +59,12 @@ public class Sprite extends Graphic
 		return images[direction.getOrientation()][index];
 	}
 
+	/**
+	 * Sets the direction of the Sprite
+	 * @param d is the direction to set the Sprite
+	 * @author Eddie Eldridge
+	 * @version 1.0
+	 */
 	public void setDirection(Direction d)
 	{
 		direction = d;
@@ -80,8 +79,13 @@ public class Sprite extends Graphic
 		return this.direction;
 	}
 
-	
-	// Functionality
+	/**
+	 * Re-orientates the player sprite based on their direction
+	 * @return The re-orientated image to use for the sprite
+	 * @param The direction used to change the image
+	 * @author Eddie Eldridge
+	 * @version 1.0
+	 */
 	public BufferedImage step(Direction d)
 	{
 		setDirection(d);
@@ -96,46 +100,51 @@ public class Sprite extends Graphic
 		return images[d.getOrientation()][index];
 	}
 
-	
+	/**
+	 * Moves the sprite
+	 * 
+	 * @author Eddie Eldridge
+	 * @version 1.0
+	 */
 	public void move()
-	{ 
+	{
 		step(direction);
-		
+
 		switch (direction.getOrientation())
 		{
-			// UP
-			case 1:
-				if (position.getY() + 1 < 10)
-				{
-					position.setY(position.getY() + 1);
-					break;
-				}
-	
+		// UP
+		case 1:
+			if (position.getY() + 1 < 10)
+			{
+				position.setY(position.getY() + 1);
+				break;
+			}
+
 			// DOWN
-			case 2:
-				if (position.getX() - 1 > -1)
-				{
-					position.setX(position.getX() - 1);
-					break;
-				}
-	
+		case 2:
+			if (position.getX() - 1 > -1)
+			{
+				position.setX(position.getX() - 1);
+				break;
+			}
+
 			// LEFT
-			case 3:
-				if (position.getX() + 1 < 10)
-				{
-					position.setX(position.getX() + 1);
-					break;
-				}
-	
+		case 3:
+			if (position.getX() + 1 < 10)
+			{
+				position.setX(position.getX() + 1);
+				break;
+			}
+
 			// RIGHT
-			default:
-				if (position.getY() - 1 > -1)
-				{
-					position.setY(position.getY() - 1);
-					break;
-				}
+		default:
+			if (position.getY() - 1 > -1)
+			{
+				position.setY(position.getY() - 1);
+				break;
+			}
 		}
-		
+
 	}
 
 }

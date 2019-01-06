@@ -13,27 +13,40 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+/**
+ * Sets up things required for the game to start
+ * e.g player's name, setting the player's difficulty and showing the starting message.
+ * Implements an interface GameSetupInterface
+ * @see GameSetupInterface
+ * @author Eddie Eldridge
+ * @version 1.0
+ */
 public class GameSetupImpl implements GameSetupInterface
 {
-	// Instance variables
-	Player player = Player.getInstance();
+	/**
+	 * Create an instance of our Player singleton
+	 */
+	PlayerSingleton player = PlayerSingleton.getInstance();
 	
-	public Player getPlayer()
+	
+	public PlayerSingleton getPlayer()
 	{
 		return player;
 	}
 
-	public void setPlayer(Player player)
+	public void setPlayer(PlayerSingleton player)
 	{
 		this.player = player;
 	}
-
+	
 	private String showPlayerName;
 	private String playerName;
 	private String playerDifficulty;
 	private String[] difficultyChoices = { "Easy", "Medium", "Hard" };
 
-	// Prompt the user for their name
+	/**
+	 * Prompts the player for their name and saves it to the Player singleton instance
+	 */
 	public String setupPlayerName()
 	{
 		playerName = JOptionPane.showInputDialog("Player Name");
@@ -43,7 +56,9 @@ public class GameSetupImpl implements GameSetupInterface
 		return playerName;
 	}
 
-	// Prompt user for difficulty
+	/**
+	 * Prompts the player for the difficulty they wish to play on and saves it to the Player singleton instance
+	 */
 	public String setupPlayerDifficulty()
 	{
 		playerDifficulty = (String) JOptionPane.showInputDialog(null, "Choose now...", "Choose your difficulty!",
@@ -52,7 +67,14 @@ public class GameSetupImpl implements GameSetupInterface
 		player.setPlayerDifficulty(playerDifficulty);
 		return playerDifficulty;
 	}
-	
+	/**
+	 * Shows a simple message to the player detailing the game
+	 */
+	public void showStartMessage()
+	{
+		JOptionPane.showMessageDialog(null,
+				"Welcome to DevQuest , " + player.getPlayerName() + "! \n The controls are as follows.. \n\n WASD/Arrow Keys: Change direction \n Spacebar/X: Move \n Generate Question: G \n Show Help: H \n \n The aim of the game is to answer 5 questions correctly in a row at each computer. \n Once you've done this, head to the printer to print of your qualification!");
+	}
 	
 
 }

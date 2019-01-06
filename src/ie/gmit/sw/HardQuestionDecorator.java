@@ -3,6 +3,13 @@ package ie.gmit.sw;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Decorates hardQuestions
+ * and extends QuestionDecorator
+ * @see QuestionDecorator
+ * @author Eddie Eldridge
+ * @version 1.0
+ */
 public class HardQuestionDecorator extends QuestionDecorator
 {
 

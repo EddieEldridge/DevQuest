@@ -1,11 +1,19 @@
 package ie.gmit.sw;
 
-public final class Player
+/**
+ * Singleton class for the player
+ * Ensures consistency of player state and makes setting and getting player info more reliable
+ * @author Eddie Eldridge
+ * @version 1.0
+ */
+public final class PlayerSingleton
 {
 	// Variables
 	String playerName;
 	String playerDifficulty;
+	Sprite playerSprite;
 	int roundsWon;
+	int questionsAnswered;
 
 	public int getRoundsWon()
 	{
@@ -18,15 +26,14 @@ public final class Player
 		this.roundsWon = roundsWon;
 	}
 
-	int questionsAnswered;
 
-	private static final Player playerSingleton = new Player();
+	private static final PlayerSingleton playerSingleton = new PlayerSingleton();
 
-	private Player()
+	private PlayerSingleton()
 	{
 	}
 
-	public static Player getInstance()
+	public static PlayerSingleton getInstance()
 	{
 		return playerSingleton;
 	}

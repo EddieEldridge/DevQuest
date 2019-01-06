@@ -2,18 +2,34 @@ package ie.gmit.sw;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URI;
+import java.net.URL;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Method responsible for loading Graphics found locally such as Tiles, Objects and Sprites
+ * Interfaced by ResourceSetupInterface
+ * @see ResourceSetupInterface
+ * @author Eddie Eldridge
+ * @version 1.0
+ */
 public class ResourceSetupImpl implements ResourceSetupInterface
 {
-	private BufferedImage[] tiles;
-	private BufferedImage[] objects;
 	GraphicFactory graphicFactory = new GraphicFactory();
 	Graphic playerSprite = graphicFactory.getGraphic("Sprite");
-
-	// Load the images from the resource folder to be used as tiles
+	private BufferedImage[] tiles;
+	private BufferedImage[] objects;
+	
+	/**
+	 * Handles the loading of images
+	 * @see loadPlayerSprite
+	 * @see loadTiles
+	 * @see loadObjects
+	 * @author Eddie Eldridge
+	 * @version 1.0
+	 */
 	private BufferedImage[] loadImages(String directory, BufferedImage[] img) throws Exception
 	{
 		File dir = new File(directory);
@@ -28,19 +44,36 @@ public class ResourceSetupImpl implements ResourceSetupInterface
 		return img;
 	}
 
-
-	public Sprite loadPlayer() throws Exception
+	/**
+	 * Loads the playerSprite
+	 * @see loadImages
+	 * @author Eddie Eldridge
+	 * @version 1.0
+	 */
+	public Sprite loadPlayerSprite() throws Exception
 	{
 		playerSprite = new Sprite(loadImages("./resources/images/sprites/default", null));
 		return (Sprite) playerSprite;
 	}
 	
+	/**
+	 * Loads Tiles
+	 * @see loadImages
+	 * @author Eddie Eldridge
+	 * @version 1.0
+	 */
 	public BufferedImage[] loadTiles() throws Exception
 	{
 		tiles = loadImages("./resources/images/ground", tiles);
 		return tiles;
 	}
 	
+	/**
+	 * Loads Objects
+	 * @see loadImages
+	 * @author Eddie Eldridge
+	 * @version 1.0
+	 */
 	public BufferedImage[] loadObjects() throws Exception
 	{
 		objects = loadImages("./resources/images/objects", objects);
