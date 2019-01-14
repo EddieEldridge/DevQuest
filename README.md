@@ -28,7 +28,7 @@ The following program contains
 The source code can be found inside the src folder.
 
 # How to run the program
-The program can be run by executing isogame.jar
+The program can be run by executing DevQuest.jar
 
 # Documentation
 The readme.txt file details how to play the game but this is also be explained inside the game.
