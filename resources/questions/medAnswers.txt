@@ -4,7 +4,7 @@ Ruby
 Node
 Rust
 Linus
-7
-8
-9
-10
+Spacebar
+Perl
+Javascript
+SQL

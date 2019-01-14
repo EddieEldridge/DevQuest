@@ -43,7 +43,7 @@ public class KeyHandler extends KeyAdapter
 		{
 			paintInterface.paintAsIsometric();
 		}
-		else if (keyPressed.getKeyCode() == KeyEvent.VK_SPACE)
+		else if (keyPressed.getKeyCode() == KeyEvent.VK_SPACE || keyPressed.getKeyCode() == KeyEvent.VK_X)
 		{
 			PaintableImpl.playerSprite.move();
 		}

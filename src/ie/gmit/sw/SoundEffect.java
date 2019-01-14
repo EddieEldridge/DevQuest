@@ -41,7 +41,6 @@ public enum SoundEffect
 	{
 		try
 		{			    
-			// Use URL (instead of File) to read from disk and JAR.
 			File dir = new File(soundFileName);	
 			// Set up an audio input stream piped from the sound file.
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(dir);
